@@ -1,5 +1,6 @@
-package data
+package model
 
 type Activity struct {
-	name string
+	Id   int
+	Name string
 }

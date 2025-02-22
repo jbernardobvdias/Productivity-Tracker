@@ -1,12 +1,19 @@
 package view
 
 import (
-	"fyne.io/fyne/app"
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/widget"
 )
 
-func DrawRecordsView() {
-	a := app.New()
-	w := a.NewWindow("Productivity Tracker")
+func DrawRecordsView(a fyne.App) {
+	w := a.NewWindow("Records")
 
-	w.ShowAndRun()
+	getClasses := widget.NewButton("Classes", func() {
+		DrawAcitivityView(a)
+	})
+
+	w.SetContent(
+		getClasses,
+	)
+	w.Show()
 }

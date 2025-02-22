@@ -1,7 +1,8 @@
-package data
+package model
 
 type Record struct {
-	dateT        string
-	activityName string
-	timePassed   int
+	Id           int
+	ActivityName string
+	DateT        string
+	TimePassed   int
 }

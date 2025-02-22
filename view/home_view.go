@@ -31,15 +31,19 @@ func DrawHomeView() {
 	})
 	stopCount := widget.NewButton("Stop", func() {
 		isRunning = false
-		//counter.SetText("00:00:00")
+	})
+	resetCount := widget.NewButton("Reset", func() {
+		isRunning = false
+		t = 0
+		counter.SetText("00:00:00")
 	})
 
 	// Set the buttons that open windows.
 	getRecords := widget.NewButton("Records", func() {
-		DrawRecordsView()
+		DrawRecordsView(a)
 	})
 	getClasses := widget.NewButton("Classes", func() {
-		DrawAcitivityView()
+		DrawAcitivityView(a)
 	})
 
 	w.SetContent(
@@ -48,6 +52,7 @@ func DrawHomeView() {
 			counter,
 			startCount,
 			stopCount,
+			resetCount,
 			getRecords,
 			getClasses,
 		))
@@ -75,8 +80,4 @@ func TranslateSeconds(secs int) string {
 	mins := (secs - secs%60) / 60
 	secs = secs % 60
 	return fmt.Sprintf("%02d:%02d:%02d", hours, mins, secs)
-}
-
-func Fill() {
-
 }

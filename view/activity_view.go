@@ -1,5 +1,7 @@
 package view
 
-func DrawAcitivityView() {
+import "fyne.io/fyne/v2"
+
+func DrawAcitivityView(a fyne.App) {
 
 }
