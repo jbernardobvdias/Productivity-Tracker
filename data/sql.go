@@ -15,13 +15,13 @@ func CreateTable() {
 	db, err := sql.Open(DBTYPE, DBPATH)
 
 	if err != nil {
-		log.Fatal("There was an error connecting to the database.", err.Error())
+		log.Fatal("There was an error connecting to the database.")
 	}
 
 	defer db.Close()
 
 	// Create the activities table if it does not exist.
-	statement, _ := db.Prepare("CREATE TABLE IF NOT EXISTS activities (id INTEGER PRIMARY KEY, name TEXT)")
+	statement, _ := db.Prepare("CREATE TABLE IF NOT EXISTS activities (id INTEGER PRIMARY KEY, name TEXT UNIQUE)")
 	statement.Exec()
 
 	// Create the records table if it does not exist.
@@ -29,7 +29,7 @@ func CreateTable() {
 	statement.Exec()
 }
 
-func LoadTable() ([]model.Activity, []model.Record) {
+func GetActivities() {
 	db, err := sql.Open(DBTYPE, DBPATH)
 
 	if err != nil {
@@ -38,12 +38,10 @@ func LoadTable() ([]model.Activity, []model.Record) {
 
 	defer db.Close()
 
-	// Load the activities table
-
 	rows, err := db.Query("SELECT * FROM activities")
 
 	if err != nil {
-		log.Fatal("There was a problem with the querry.")
+		log.Fatal("There was a problem with the query.")
 	}
 
 	var activities []model.Activity
@@ -57,13 +55,51 @@ func LoadTable() ([]model.Activity, []model.Record) {
 
 		activities = append(activities, model.Activity{Id: id, Name: name})
 	}
+}
 
-	// Load the records table
-
-	rows, err = db.Query("SELECT * FROM records")
+func GetActivitiesString() []string {
+	db, err := sql.Open(DBTYPE, DBPATH)
 
 	if err != nil {
-		log.Fatal("There was a problem with the querry.")
+		log.Fatal("There was an error connecting to the database.")
+	}
+
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM activities")
+
+	if err != nil {
+		log.Fatal("There was a problem with the query.")
+	}
+
+	var activities []string
+	for rows.Next() {
+		var id int
+		var name string
+
+		if err := rows.Scan(&id, &name); err != nil {
+			log.Fatal(err)
+		}
+
+		activities = append(activities, name)
+	}
+
+	return activities
+}
+
+func GetRecords() {
+	db, err := sql.Open(DBTYPE, DBPATH)
+
+	if err != nil {
+		log.Fatal("There was an error connecting to the database.")
+	}
+
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM records")
+
+	if err != nil {
+		log.Fatal("There was a problem with the query.")
 	}
 
 	var records []model.Record
@@ -78,11 +114,9 @@ func LoadTable() ([]model.Activity, []model.Record) {
 
 		records = append(records, model.Record{Id: id, ActivityName: name, DateT: name, TimePassed: id})
 	}
-
-	return activities, records
 }
 
-func AddActivity() {
+func AddActivity(name string) {
 	db, err := sql.Open(DBTYPE, DBPATH)
 
 	if err != nil {
@@ -92,10 +126,10 @@ func AddActivity() {
 	defer db.Close()
 
 	statement, _ := db.Prepare("INSERT INTO activities (name) VALUES (?)")
-	statement.Exec()
+	statement.Exec(name)
 }
 
-func AddRecord() {
+func AddRecord(name string, date string, timepassed string) {
 	db, err := sql.Open(DBTYPE, DBPATH)
 
 	if err != nil {
@@ -105,5 +139,5 @@ func AddRecord() {
 	defer db.Close()
 
 	statement, _ := db.Prepare("INSERT INTO records (activity, date, timepassed) VALUES (?, ?, ?)")
-	statement.Exec()
+	statement.Exec(name, date, timepassed)
 }

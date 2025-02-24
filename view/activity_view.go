@@ -1,7 +1,47 @@
 package view
 
-import "fyne.io/fyne/v2"
+import (
+	"prod_tracker/data"
+
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/widget"
+)
 
 func DrawAcitivityView(a fyne.App) {
+	w := a.NewWindow("Activities")
+	w.Resize(fyne.NewSize(250, 250))
 
+	// Gets the data and sets the table with all the different activities
+	activities := data.GetActivitiesString()
+	list := widget.NewTable(
+		func() (int, int) {
+			return len(activities), 1
+		},
+		func() fyne.CanvasObject {
+			return widget.NewLabel("wide content")
+		},
+		func(i widget.TableCellID, o fyne.CanvasObject) {
+			o.(*widget.Label).SetText(activities[i.Row])
+		})
+
+	// Place to input the activity name
+	inputName := widget.NewEntry()
+
+	saveButton := widget.NewButton("+", func() {
+		data.AddActivity(inputName.Text)
+	})
+	deleteButton := widget.NewButton("-", func() {
+
+	})
+
+	w.SetContent(
+		container.NewVBox(
+			list,
+			inputName,
+			saveButton,
+			deleteButton,
+		),
+	)
+	w.Show()
 }

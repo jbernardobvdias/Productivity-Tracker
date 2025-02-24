@@ -8,7 +8,7 @@ This tool is meant to be used to track productivity while working on the compute
 
 - [x] Implement the timer page
 - [x] Implement the database
-- [ ] Implement the activity page
+- [X] Implement the activity page
 - [ ] Implement the record page
 - [ ] (opt.) Implement tests 
 - [ ] (opt.) Implement dashboard

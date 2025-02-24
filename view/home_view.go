@@ -2,8 +2,10 @@ package view
 
 import (
 	"fmt"
+	"prod_tracker/data"
 	"time"
 
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
@@ -12,11 +14,12 @@ import (
 func DrawHomeView() {
 	a := app.New()
 	w := a.NewWindow("Productivity Tracker")
+	w.Resize(fyne.NewSize(250, 250))
 	t := 0
 	isRunning := false
 	selectedClass := ""
 
-	var activities []string
+	activities := data.GetActivitiesString()
 
 	selected := widget.NewSelect(activities, func(s string) {
 		selectedClass = s

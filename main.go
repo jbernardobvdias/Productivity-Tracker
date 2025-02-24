@@ -7,9 +7,8 @@ import (
 
 func main() {
 	data.CreateTable()
-	data.LoadTable()
-	data.AddActivity()
-	data.AddRecord()
+	data.AddActivity("Test1")
+	data.AddActivity("Test2")
 
 	view.DrawHomeView()
 }
