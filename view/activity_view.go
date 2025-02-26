@@ -13,6 +13,7 @@ func DrawAcitivityView(a fyne.App) {
 	w.Resize(fyne.NewSize(250, 250))
 
 	// Gets the data and sets the table with all the different activities
+	selectedName := ""
 	activities := data.GetActivitiesString()
 	list := widget.NewTable(
 		func() (int, int) {
@@ -25,14 +26,21 @@ func DrawAcitivityView(a fyne.App) {
 			o.(*widget.Label).SetText(activities[i.Row])
 		})
 
+	list.OnSelected = func(id widget.TableCellID) {
+		selectedName = activities[id.Row]
+	}
 	// Place to input the activity name
 	inputName := widget.NewEntry()
 
 	saveButton := widget.NewButton("+", func() {
 		data.AddActivity(inputName.Text)
+		activities = data.GetActivitiesString()
+		list.Refresh()
 	})
 	deleteButton := widget.NewButton("-", func() {
-
+		data.DeleteActivity(selectedName)
+		activities = data.GetActivitiesString()
+		list.Refresh()
 	})
 
 	w.SetContent(

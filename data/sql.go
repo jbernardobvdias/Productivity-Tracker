@@ -13,11 +13,9 @@ const DBPATH string = "./db/database.db"
 
 func CreateTable() {
 	db, err := sql.Open(DBTYPE, DBPATH)
-
 	if err != nil {
 		log.Fatal("There was an error connecting to the database.")
 	}
-
 	defer db.Close()
 
 	// Create the activities table if it does not exist.
@@ -31,11 +29,9 @@ func CreateTable() {
 
 func GetActivities() {
 	db, err := sql.Open(DBTYPE, DBPATH)
-
 	if err != nil {
 		log.Fatal("There was an error connecting to the database.")
 	}
-
 	defer db.Close()
 
 	rows, err := db.Query("SELECT * FROM activities")
@@ -59,11 +55,9 @@ func GetActivities() {
 
 func GetActivitiesString() []string {
 	db, err := sql.Open(DBTYPE, DBPATH)
-
 	if err != nil {
 		log.Fatal("There was an error connecting to the database.")
 	}
-
 	defer db.Close()
 
 	rows, err := db.Query("SELECT * FROM activities")
@@ -89,11 +83,9 @@ func GetActivitiesString() []string {
 
 func GetRecords() {
 	db, err := sql.Open(DBTYPE, DBPATH)
-
 	if err != nil {
 		log.Fatal("There was an error connecting to the database.")
 	}
-
 	defer db.Close()
 
 	rows, err := db.Query("SELECT * FROM records")
@@ -118,11 +110,9 @@ func GetRecords() {
 
 func AddActivity(name string) {
 	db, err := sql.Open(DBTYPE, DBPATH)
-
 	if err != nil {
 		log.Fatal("There was an error connecting to the database.")
 	}
-
 	defer db.Close()
 
 	statement, _ := db.Prepare("INSERT INTO activities (name) VALUES (?)")
@@ -131,13 +121,37 @@ func AddActivity(name string) {
 
 func AddRecord(name string, date string, timepassed string) {
 	db, err := sql.Open(DBTYPE, DBPATH)
-
 	if err != nil {
 		log.Fatal("There was an error connecting to the database.")
 	}
-
 	defer db.Close()
 
 	statement, _ := db.Prepare("INSERT INTO records (activity, date, timepassed) VALUES (?, ?, ?)")
 	statement.Exec(name, date, timepassed)
+}
+
+func DeleteActivity(name string) {
+	db, err := sql.Open(DBTYPE, DBPATH)
+	if err != nil {
+		log.Fatal("There was an error connecting to the database.")
+	}
+	defer db.Close()
+
+	statement, _ := db.Prepare("DELETE FROM activities WHERE name = ?;")
+	statement.Exec(name)
+
+	// Deletes the records pretaining to the activity deleted
+	statement, _ = db.Prepare("DELETE FROM records WHERE activity = ?")
+	statement.Exec(name)
+}
+
+func DeleteRecord() {
+	db, err := sql.Open(DBTYPE, DBPATH)
+	if err != nil {
+		log.Fatal("There was an error connecting to the database.")
+	}
+	defer db.Close()
+
+	statement, _ := db.Prepare("DELETE FROM records WHERE activity = ?")
+	statement.Exec()
 }
