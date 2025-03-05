@@ -40,6 +40,12 @@ func DrawHomeView() {
 		t = 0
 		counter.SetText("00:00:00")
 	})
+	saveButton := widget.NewButton("Save", func() {
+		data.AddRecord(selectedClass, time.Now().GoString(), t)
+		isRunning = false
+		t = 0
+		counter.SetText("00:00:00")
+	})
 
 	// Set the buttons that open windows.
 	getRecords := widget.NewButton("Records", func() {
@@ -56,15 +62,12 @@ func DrawHomeView() {
 			startCount,
 			stopCount,
 			resetCount,
+			saveButton,
 			getRecords,
 			getClasses,
 		))
 
 	w.ShowAndRun()
-}
-
-func SelectClass(cl string) {
-
 }
 
 func StartTimer(t *int, counter *widget.Label, isRunning *bool) {

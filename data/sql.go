@@ -119,7 +119,7 @@ func AddActivity(name string) {
 	statement.Exec(name)
 }
 
-func AddRecord(name string, date string, timepassed string) {
+func AddRecord(name string, date string, timepassed int) {
 	db, err := sql.Open(DBTYPE, DBPATH)
 	if err != nil {
 		log.Fatal("There was an error connecting to the database.")
