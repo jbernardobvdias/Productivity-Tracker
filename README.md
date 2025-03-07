@@ -8,8 +8,8 @@ This tool is made in Go using Fyne for the UI and uses a SQLite database to stor
 
 - [x] Implement the timer page
 - [x] Implement the database
+- [x] Implement csv
 - [x] Implement the activity page
 - [ ] Implement the record page
 - [ ] (opt.) Implement tests 
-- [ ] (opt.) Implement csv
 - [ ] (opt.) Implement dashboard
