@@ -8,8 +8,11 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-var dataMock2 = [][]string{{"top left", "top right"},
-	{"bottom left", "bottom right"}}
+var dataMock2 = [][]string{{"Activity", "Date", "Time"},
+	{"Coding", "10/03/2024", "00:01:30"},
+	{"Gym", "10/03/2024", "01:00:30"},
+	{"Coding", "10/03/2024", "00:01:30"},
+	{"Gym", "10/03/2024", "01:00:30"}}
 
 func DrawRecordsView(a fyne.App) {
 	w := a.NewWindow("Records")
@@ -39,7 +42,7 @@ func DrawRecordsView(a fyne.App) {
 	})
 
 	w.SetContent(
-		container.NewVBox(
+		container.NewGridWithRows(2,
 			list,
 			deleteButton,
 		),

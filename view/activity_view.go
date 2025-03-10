@@ -44,7 +44,7 @@ func DrawAcitivityView(a fyne.App) {
 	})
 
 	w.SetContent(
-		container.NewVBox(
+		container.NewGridWithRows(4,
 			list,
 			inputName,
 			saveButton,

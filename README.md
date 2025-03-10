@@ -10,6 +10,6 @@ This tool is made in Go using Fyne for the UI and uses a SQLite database to stor
 - [x] Implement the database
 - [x] Implement csv
 - [x] Implement the activity page
-- [ ] Implement the record page
+- [x] Implement the record page
 - [ ] (opt.) Implement tests 
 - [ ] (opt.) Implement dashboard
