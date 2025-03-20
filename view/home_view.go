@@ -21,7 +21,7 @@ func DrawHomeView() {
 
 	activities := data.GetActivitiesString()
 
-	selected := widget.NewSelect(activities, func(s string) {
+	selected := widget.NewSelect(GetActivityNames(activities), func(s string) {
 		selectedClass = s
 		fmt.Println(selectedClass)
 	})
@@ -79,6 +79,14 @@ func StartTimer(t *int, counter *widget.Label, isRunning *bool) {
 		*t += 1
 		counter.SetText(TranslateSeconds(*t))
 	}
+}
+
+func GetActivityNames(l [][]string) []string {
+	ret := []string{}
+	for i := 0; i < len(l); i++ {
+		ret = append(ret, l[i][1])
+	}
+	return ret
 }
 
 func TranslateSeconds(secs int) string {

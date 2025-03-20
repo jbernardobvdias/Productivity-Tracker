@@ -17,17 +17,17 @@ func DrawAcitivityView(a fyne.App) {
 	activities := data.GetActivitiesString()
 	list := widget.NewTable(
 		func() (int, int) {
-			return len(activities), 1
+			return len(activities), 2
 		},
 		func() fyne.CanvasObject {
 			return widget.NewLabel("wide content")
 		},
 		func(i widget.TableCellID, o fyne.CanvasObject) {
-			o.(*widget.Label).SetText(activities[i.Row])
+			o.(*widget.Label).SetText(activities[i.Row][i.Col])
 		})
 
 	list.OnSelected = func(id widget.TableCellID) {
-		selectedName = activities[id.Row]
+		selectedName = activities[id.Row][0]
 	}
 	// Place to input the activity name
 	inputName := widget.NewEntry()

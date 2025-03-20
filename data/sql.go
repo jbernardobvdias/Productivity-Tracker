@@ -3,7 +3,7 @@ package data
 import (
 	"database/sql"
 	"log"
-	"prod_tracker/model"
+	"strconv"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -27,7 +27,7 @@ func CreateTable() {
 	statement.Exec()
 }
 
-func GetActivities() {
+func GetActivitiesString() [][]string {
 	db, err := sql.Open(DBTYPE, DBPATH)
 	if err != nil {
 		log.Fatal("There was an error connecting to the database.")
@@ -40,7 +40,7 @@ func GetActivities() {
 		log.Fatal("There was a problem with the query.")
 	}
 
-	var activities []model.Activity
+	var activities [][]string
 	for rows.Next() {
 		var id int
 		var name string
@@ -49,39 +49,13 @@ func GetActivities() {
 			log.Fatal(err)
 		}
 
-		activities = append(activities, model.Activity{Id: id, Name: name})
-	}
-}
-
-func GetActivitiesString() []string {
-	db, err := sql.Open(DBTYPE, DBPATH)
-	if err != nil {
-		log.Fatal("There was an error connecting to the database.")
-	}
-	defer db.Close()
-
-	rows, err := db.Query("SELECT * FROM activities")
-
-	if err != nil {
-		log.Fatal("There was a problem with the query.")
-	}
-
-	var activities []string
-	for rows.Next() {
-		var id int
-		var name string
-
-		if err := rows.Scan(&id, &name); err != nil {
-			log.Fatal(err)
-		}
-
-		activities = append(activities, name)
+		activities = append(activities, []string{strconv.Itoa(id), name})
 	}
 
 	return activities
 }
 
-func GetRecords() {
+func GetRecordsString() [][]string {
 	db, err := sql.Open(DBTYPE, DBPATH)
 	if err != nil {
 		log.Fatal("There was an error connecting to the database.")
@@ -94,18 +68,21 @@ func GetRecords() {
 		log.Fatal("There was a problem with the query.")
 	}
 
-	var records []model.Record
+	var records [][]string
 	for rows.Next() {
-
 		var id int
 		var name string
+		var datet string
+		var timepassed int
 
-		if err := rows.Scan(&id, &name); err != nil {
+		if err := rows.Scan(&id, &name, &datet, &timepassed); err != nil {
 			log.Fatal(err)
 		}
 
-		records = append(records, model.Record{Id: id, ActivityName: name, DateT: name, TimePassed: id})
+		records = append(records, []string{strconv.Itoa(id), name, datet, strconv.Itoa(timepassed)})
 	}
+
+	return records
 }
 
 func AddActivity(name string) {
